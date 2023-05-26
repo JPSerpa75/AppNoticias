@@ -57,6 +57,10 @@ const styles = StyleSheet.create({
         padding: 16,
         alignItems: "center",
     },
+    title:{
+        fontSize: 24,
+        fontWeight: "bold"
+    },
     list:{
         marginVertical: 20,
         flex: 1
