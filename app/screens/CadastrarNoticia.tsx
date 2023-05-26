@@ -22,21 +22,9 @@ const CadastrarNoticia = () => {
 
         if(!result.cancelled){
             setImage(result.uri);
-        }
-        
+        }   
     }
-
-    async function convertImageToBase64(uri: any) {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-        })
-    }
-
+    
     const salvarNoticia = async () => {
         try {
             const storageRef = ref(FIRESTORE_STORAGE, 'images/' + new Date().getTime());
