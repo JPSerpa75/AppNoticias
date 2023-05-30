@@ -9,7 +9,7 @@ const ListarNoticias = () => {
 
     const subscriber = () => {
         const NoticiasRef = collection(FIRESTORE_DB, "Noticias");
-        const q  = query(NoticiasRef, orderBy('dataCriacao', "asc"));
+        const q  = query(NoticiasRef, orderBy('dataCriacao', "desc"));
         const subscriber = onSnapshot(q, {
             next: (snapshot) => {
                 const noticias: any[] = [];

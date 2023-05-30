@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     areaBtnImage: {
-        width: "25%",
+        width: "30%",
         marginVertical: 10,
         padding: 8,
         borderRadius: 12,
