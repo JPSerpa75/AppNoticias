@@ -1,13 +1,19 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, FlatList, StyleSheet, Platform } from "react-native";
+import { View, Text, Image, FlatList, StyleSheet, Platform, TouchableOpacity } from "react-native";
 import { FIRESTORE_DB } from "../../firebaseConfig";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-const ListarNoticias = () => {
+const ListarNoticias = ({ route }) => {
+    const userInfo = route.params.userInfo;
     const [noticias, setNoticias] = useState<any[]>([]);
 
 
     const subscriber = () => {
+        console.log(userInfo);
         const NoticiasRef = collection(FIRESTORE_DB, "Noticias");
         const q  = query(NoticiasRef, orderBy('dataCriacao', "desc"));
         const subscriber = onSnapshot(q, {
@@ -26,9 +32,20 @@ const ListarNoticias = () => {
 
     useEffect(() => { subscriber() }, [])
 
+    const deleteNews = async (id: any) =>{
+        try{
+            const colecao = collection(FIRESTORE_DB, "Noticias")
+            const noticia = doc(colecao, id);
+            await deleteDoc(noticia);
+        }catch(error){
+            alert("Falha ao excluir! " + error);
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Últimas Notícias</Text>
+            <Text>{JSON.stringify(userInfo, null, 2)}</Text>
+            <Text style={styles.title}>Notícias</Text>
             <FlatList
                 data={noticias}
                 style={styles.list}
@@ -41,6 +58,17 @@ const ListarNoticias = () => {
                             <Text style={styles.textData}>{item.dataCriacao}</Text>
                         </View>
                         <Text style={styles.descricao}>{item.descricao}</Text>
+                        <View style={styles.actions}>
+                            <TouchableOpacity style={styles.like}>
+                                <FontAwesomeIcon icon={faHeart} size={20} color="#eb1c24" />
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <FontAwesomeIcon icon={faPenToSquare} size={20} color="#eb1c24" />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => deleteNews(item.id)}>
+                                <FontAwesomeIcon icon={faTrashCan} size={20} color="#eb1c24" />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 )}
                 showsVerticalScrollIndicator={false}
@@ -49,6 +77,9 @@ const ListarNoticias = () => {
         </View>
     );
 }
+
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -108,7 +139,7 @@ const styles = StyleSheet.create({
         color: "#9D9D9D",
         fontSize: 12,
     },
-    descricao:{
+    descricao: {
         color: "#79B4B7",
         fontSize: 16,
         fontWeight: "600",
@@ -117,7 +148,17 @@ const styles = StyleSheet.create({
         color: "#FEFBF3",
         marginBottom: -10,
         fontSize: 9
+    },
+    actions: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 20,
+        marginTop: 10,
+    },
+    like: {
+        flexGrow: 1,
     }
+
 })
 
 export default ListarNoticias;

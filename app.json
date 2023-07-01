@@ -15,16 +15,24 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.joaopedro.serpaNews",
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.joaopedro.serpaNews"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "58ebbbfc-754e-45b3-961b-0ecdbc2cacfa"
+      }
+    },
+    "scheme": "serpaNews"
   }
 }
