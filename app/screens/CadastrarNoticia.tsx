@@ -7,7 +7,8 @@ import { getDownloadURL, ref, uploadBytes, uploadString } from 'firebase/storage
 import { useNavigation } from "@react-navigation/native";
 
 
-const CadastrarNoticia = () => {
+const CadastrarNoticia = ({route}) => {
+    const userInfo = route.params.userInfo;
     const navigation = useNavigation()
     const [titulo, setTitulo] = useState("")
     const [descricao, setDescricao] = useState("")
@@ -29,7 +30,7 @@ const CadastrarNoticia = () => {
 
     const salvarNoticia = async () => {
         try {
-            if(titulo.trim().length == 0 || descricao.trim().length==0 || image.trim().length==0 ){
+            if (titulo.trim().length == 0 || descricao.trim().length == 0 || image.trim().length == 0) {
                 alert("Preencha todos os campos!");
                 return;
             }
@@ -45,13 +46,15 @@ const CadastrarNoticia = () => {
                 descricao: descricao,
                 imageUrl: imageUrl,
                 dataCriacao: dataFormatada(),
+                criador: userInfo.email,
+                likes: 0,
             };
 
             const docRef = await addDoc(collection(FIRESTORE_DB, 'Noticias'), docData);
             setTitulo("");
             setDescricao("");
             setImage("");
-            navigation.navigate("Notícias")
+            
 
         } catch (error) {
             alert("Erro ao criar notícia" + error)
@@ -68,6 +71,7 @@ const CadastrarNoticia = () => {
 
     return (
         <ScrollView style={styles.container}>
+            <Text style={styles.title}>Nova Notícia</Text>
             <Text style={styles.label}>Título:</Text>
             <TextInput style={styles.input} value={titulo} onChangeText={(n: string) => setTitulo(n)} />
             <Text style={styles.label}>Descricão:</Text>
@@ -103,6 +107,13 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 24,
         backgroundColor: "#79B4B7",
+    },
+    title: {
+        color: "#F8F0DF",
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 20,
+        textAlign: "center"
     },
     label: {
         fontSize: 18,
@@ -152,7 +163,7 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 10,
     },
-    vwImage:{
+    vwImage: {
         flexDirection: "row",
         gap: 20,
         marginBottom: 16,

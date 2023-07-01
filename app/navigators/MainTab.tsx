@@ -6,21 +6,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../components/Logo';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();
 
-export default () => (
-    <Tab.Navigator
+export default () => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    const userInfo = route.params?.userInfo ?? null;
+    return(
+        <Tab.Navigator
         screenOptions={({ route }) => ({
-            headerRight: () => <Logo/>,
-            headerStyle:{
-                backgroundColor: "#FEFBF3"
-            },
-            headerTitleStyle:{
-                fontSize: 24,
-                color: "#eb1c24"
-            },
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => {
                 let icon;
 
@@ -44,7 +42,9 @@ export default () => (
             }
         }}
     >
-        <Tab.Screen name="Notícias" component={ListarNoticias} />
-        <Tab.Screen name="Nova Notícia" component={CadastrarNoticia} />
+        <Tab.Screen name="Notícias" component={ListarNoticias}  initialParams={{userInfo: userInfo}} />
+        <Tab.Screen name="Nova Notícia" component={CadastrarNoticia} initialParams={{userInfo: userInfo}} />
     </Tab.Navigator>
-);
+    );
+}
+
