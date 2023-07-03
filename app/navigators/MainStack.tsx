@@ -6,6 +6,7 @@ import mainTab from '../navigators/MainTab';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Logo from '../components/Logo';
 import Sair from '../components/Sair';
+import EditarNoticia from '../screens/EditarNoticia';
 const Stack = createStackNavigator();
 
 export default () => {
@@ -22,11 +23,17 @@ export default () => {
                 },
             }}
         >
-            {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> */}
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Serpa News" component={mainTab}
                 options={{
                     headerLeft: () => <Logo />,
                     headerRight: () => <Sair />
+                }}
+            />
+            <Stack.Screen name="Editar Notícia" component={EditarNoticia}
+                options={{
+                    headerRight: () => <Logo />,
+                    headerTintColor: "#eb1c24"
                 }}
             />
         </Stack.Navigator>

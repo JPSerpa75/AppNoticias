@@ -4,12 +4,13 @@
 
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Image } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -62,8 +63,13 @@ export default function App() {
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
-            <TouchableOpacity onPress={() => promptAsync()}>
-                <Text>Login com Google</Text>
+      
+            <Image style={styles.img} source={require('../../assets/logo2.png')} resizeMode="cover" />
+            <Text style={styles.text}>Seja bem-vindo</Text>
+            <Text style={styles.text}>ao</Text>
+            <Text style={styles.text}>SerpaNews</Text>
+            <TouchableOpacity onPress={() => promptAsync()} style={styles.btnArea}>
+                <Text style={styles.btnText}>Login com Google</Text>
             </TouchableOpacity>
         </View>
     );
@@ -72,8 +78,29 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#79B4B7',
         alignItems: 'center',
-        justifyContent: 'center',
     },
+    text:{
+        color: "#F8F0DF",
+        fontWeight: "bold",
+        fontSize: 28
+    },
+    img:{
+        height: 250,
+        width: 200
+    },
+    btnArea:{
+        marginTop: 50,
+        padding: 16,
+        backgroundColor: "#F8F0DF",
+        borderRadius: 24,
+        flexDirection: "row",
+        gap: 16,
+    },
+    btnText:{
+        color: "#eb1c24",
+        fontWeight: "bold",
+        fontSize: 18
+    }
 });

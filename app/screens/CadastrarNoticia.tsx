@@ -7,7 +7,7 @@ import { getDownloadURL, ref, uploadBytes, uploadString } from 'firebase/storage
 import { useNavigation } from "@react-navigation/native";
 
 
-const CadastrarNoticia = ({route}) => {
+const CadastrarNoticia = ({route}: any) => {
     const userInfo = route.params.userInfo;
     const navigation = useNavigation()
     const [titulo, setTitulo] = useState("")
@@ -44,7 +44,7 @@ const CadastrarNoticia = ({route}) => {
             const docData = {
                 titulo: titulo,
                 descricao: descricao,
-                imageUrl: imageUrl,
+                imagem: imageUrl,
                 dataCriacao: dataFormatada(),
                 criador: userInfo.email,
                 likes: 0,
